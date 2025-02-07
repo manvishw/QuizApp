@@ -1,0 +1,15 @@
+{
+  "quiz_name": "Sample Quiz",
+  "questions": [
+    {
+      "question": "What is 2 + 2?",
+      "options": ["1", "2", "3", "4"],
+      "answer": "4"
+    },
+    {
+      "question": "What is the capital of France?",
+      "options": ["Berlin", "Madrid", "Paris", "Rome"],
+      "answer": "Paris"
+    }
+  ]
+}
