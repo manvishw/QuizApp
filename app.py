@@ -117,8 +117,8 @@ def start_quiz():
     answer_var = tk.StringVar()
     option_frame = tk.Frame(quiz_window, bg=BACKGROUND_COLOR)
     option_frame.pack(pady=10, fill=tk.X)
-    option_buttons = [tk.Radiobutton(option_frame, text="", variable=answer_var, value="",
-                                     command=select_answer, bg=BACKGROUND_COLOR, font=("Arial", 12)) for _ in range(4)]
+    option_buttons = [ttk.Radiobutton(option_frame, text="", variable=answer_var, value="",
+                                      command=select_answer)for _ in range(4)]
     for btn in option_buttons:
         btn.pack(anchor="w", padx=20, pady=2, fill=tk.X)
 
@@ -130,8 +130,8 @@ def start_quiz():
     nav_frame.pack(pady=10, fill=tk.X)
     nav_frame.columnconfigure((0, 1, 2), weight=1)
 
-    prev_button = tk.Button(nav_frame, text="Previous", command=previous_question,
-                            bg=BUTTON_COLOR, fg=TEXT_COLOR, relief="solid", font=("Arial", 10, "bold"))
+    prev_button = ttk.Button(nav_frame, text="Previous",
+                             command=previous_question,)
     prev_button.grid(row=0, column=0, padx=10, pady=5, sticky="ew")
 
     progress_bar_label = tk.Label(
