@@ -106,19 +106,20 @@ def start_quiz():
     quiz_window.config(bg=BACKGROUND_COLOR)
     quiz_window.columnconfigure(0, weight=1)
 
-    tk.Label(quiz_window, text=quiz_name, font=("Arial", 14, "bold"),
-             bg=HEADER_COLOR, fg=TEXT_COLOR).pack(pady=10, fill=tk.X)
+    ttk.Label(quiz_window, text=quiz_name, background='Purple',
+              style='Main.TLabel').pack(pady=10, padx=10, fill=tk.X)
 
     global question_label, answer_var, option_buttons, prev_button, next_button, submit_button
-    question_label = tk.Label(quiz_window, text="",
-                              wraplength=500, font=("Arial", 14), bg=BACKGROUND_COLOR, fg=LABEL_COLOR)
+    question_label = ttk.Label(quiz_window, text="",
+                               wraplength=500, background='purple', foreground='White', justify=tk.CENTER,
+                               font=('Verdana', '14'))
     question_label.pack(pady=20, padx=10, fill=tk.X)
 
     answer_var = tk.StringVar()
     option_frame = tk.Frame(quiz_window, bg=BACKGROUND_COLOR)
     option_frame.pack(pady=10, fill=tk.X)
     option_buttons = [ttk.Radiobutton(option_frame, text="", variable=answer_var, value="",
-                                      command=select_answer)for _ in range(4)]
+                                      command=select_answer, style='TRadiobutton',)for _ in range(4)]
     for btn in option_buttons:
         btn.pack(anchor="w", padx=20, pady=2, fill=tk.X)
 
@@ -131,19 +132,19 @@ def start_quiz():
     nav_frame.columnconfigure((0, 1, 2), weight=1)
 
     prev_button = ttk.Button(nav_frame, text="Previous",
-                             command=previous_question,)
+                             command=previous_question, style='Main.TButton')
     prev_button.grid(row=0, column=0, padx=10, pady=5, sticky="ew")
 
-    progress_bar_label = tk.Label(
-        nav_frame, text="0%", bg=BACKGROUND_COLOR, fg=LABEL_COLOR)
+    progress_bar_label = ttk.Label(
+        nav_frame, text="0%", background='Purple', foreground='white', padding=5, font=('Arial', '16'))
     progress_bar_label.grid(row=0, column=1)
 
-    next_button = tk.Button(nav_frame, text="Next", command=next_question,
-                            bg=BUTTON_COLOR, fg=TEXT_COLOR, relief="solid", font=("Arial", 10, "bold"))
+    next_button = ttk.Button(nav_frame, text="Next", command=next_question,
+                             style='Main.TButton')
     next_button.grid(row=0, column=2, padx=10, pady=5, sticky="ew")
 
-    submit_button = tk.Button(quiz_window, text="Submit", command=submit_quiz,
-                              bg=BUTTON_COLOR, fg=TEXT_COLOR, relief="solid", font=("Arial", 12, "bold"))
+    submit_button = ttk.Button(quiz_window, text="Submit", command=submit_quiz,
+                               style='Main.TButton')
     submit_button.pack(pady=10, fill=tk.X)
 
     display_question()
@@ -254,35 +255,50 @@ def update_score_table():
         widget.destroy()
 
     if score_data:
-        tk.Label(score_frame, text="User Name", font=("Arial", 10, "bold")).grid(
+        ttk.Label(score_frame, text="User Name").grid(
             row=0, column=0, padx=10, pady=5)
-        tk.Label(score_frame, text="Score", font=("Arial", 10, "bold")).grid(
+        ttk.Label(score_frame, text="Score",).grid(
             row=0, column=1, padx=10, pady=5)
 
         for i, (name, score) in enumerate(score_data):
-            tk.Label(score_frame, text=name).grid(
+            ttk.Label(score_frame, text=name).grid(
                 row=i+1, column=0, padx=10, pady=5)
-            tk.Label(score_frame, text=str(score)).grid(
+            ttk.Label(score_frame, text=str(score)).grid(
                 row=i+1, column=1, padx=10, pady=5)
 
 
 root = tk.Tk()
 root.title("Quiz App")
 root.geometry("600x500")
-root.config(bg=BACKGROUND_COLOR)
+root.config(bg='White')
 root.columnconfigure(0, weight=1)
 
-open_file_button = tk.Button(root, text="Open Quiz File", command=open_file,
-                             bg=BUTTON_COLOR, fg=TEXT_COLOR, relief="solid", font=("Arial", 12, "bold"))
+style = ttk.Style()
+
+style.map('Main.TButton',
+          background=[('disabled', 'White'),
+                      ('active', 'Purple'),
+                      ],
+          foreground=[('disabled', 'Black'), ('active', TEXT_COLOR)],
+          relief=[('pressed', '!disabled', 'sunken')],
+          font='helvetica 24',)
+style.configure('TRadiobutton', background=BACKGROUND_COLOR,
+                font='helvetica 14', padding=10)
+style.configure('Main.TLabel', background=HEADER_COLOR,
+                foreground=TEXT_COLOR, font='helvetica 24', padding=5)
+
+open_file_button = ttk.Button(root, text="Open Quiz File", command=open_file,
+                              style='Main.TButton')
 open_file_button.pack(pady=20, padx=20, fill=tk.X)
 
-start_button = tk.Button(root, text="Start Quiz", command=start_quiz,
-                         bg=BUTTON_COLOR, fg=TEXT_COLOR, relief="solid", font=("Arial", 12, "bold"))
+start_button = ttk.Button(root, text="Start Quiz", command=start_quiz,
+                          style='Main.TButton')
 start_button.pack(pady=10, padx=20, fill=tk.X)
 start_button.pack_forget()
 
-score_frame = tk.Frame(root, bg=BACKGROUND_COLOR)
+score_frame = ttk.Frame(root, style='TFrame')
 score_frame.pack(pady=20, padx=20, fill=tk.X)
 update_score_table()
+
 
 root.mainloop()
